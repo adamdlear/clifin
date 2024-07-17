@@ -1,14 +1,17 @@
 # Clifin
 
+A CLI budget app
+
 ## Setup
 
-### Setup gcloud
+### Configure gcloud
 
-Install gcloud
+#### Install gcloud
 `brew install --cask google-cloud-sdk`
 
-Authorize gcloud
-
+#### Authorize gcloud
 `gcloud auth login`
 
 
+### Setup Google Cloud and Generate Credentials
+`bash init.sh`
