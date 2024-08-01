@@ -12,6 +12,5 @@ A CLI budget app
 #### Authorize gcloud
 `gcloud auth login`
 
-
 ### Setup Google Cloud and Generate Credentials
 `bash init.sh`
