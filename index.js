@@ -1,6 +1,6 @@
-import { authenticateGoogle, createDocument } from './src/init.js';
 import { program } from 'commander';
 
+import { init } from './src/init.js';
 import { getGoogleCreds } from './src/utils.js';
 
 program
@@ -8,7 +8,6 @@ program
     .argument("<sheet-name", 'name of spreadsheet')
     .description('Set up application')
     .action((name) => {
-        authenticateGoogle()
         const jwt = getGoogleCreds()
-        doc = createDocument(jwt, name);
+        init(jwt, name)
     });

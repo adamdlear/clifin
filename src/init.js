@@ -1,5 +1,15 @@
 import { exec } from 'child_process';
 import { GoogleSpreadsheet } from 'google-spreadsheet';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'url';
+
+export async function init(jwt, docName) {
+    await authenticateGoogle();
+    const doc = createDocument(jwt, docName);
+    createConfigFile(doc);
+    createTransactionsFile();
+}
 
 async function createProject(id) {
     await exec(`gcloud projects create clifin-${id}`);
@@ -28,7 +38,7 @@ async function getAccountKey(id) {
             --iam-account=clifin-app@clifin-${id}.iam.gserviceaccount.com`);
 }
 
-export async function authenticateGoogle() {
+async function authenticateGoogle() {
     const id = Math.floor(Math.random() * 1000000)
     createProject(id);
     setDefaultProject(id)
@@ -38,6 +48,29 @@ export async function authenticateGoogle() {
     getAccountKey(id);
 }
 
-export async function createDocument(jwt, docName) {
+async function createDocument(jwt, docName) {
     return await GoogleSpreadsheet.createNewSpreadsheetDocument(jwt, { title: docName });
+}
+
+function createConfigFile(documentId) {
+    const content = { documentId: documentId }
+    const configFilePath = path.join(
+        path.dirname(fileURLToPath(import.meta.url)),
+        '..', 
+        'config.json'
+    );
+    fs.writeFile(configFilePath, content, err => {
+        if (err) throw err;
+    })
+}
+
+function createTransactionsFile() {
+    const transactionFilePath = path.join(
+        path.dirname(fileURLToPath(import.meta.url)),
+        '..',
+        'transactions.json'
+    )
+    fs.writeFile(transactionFilePath, '', err => {
+        if (err) throw err;
+    })
 }
