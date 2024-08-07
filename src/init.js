@@ -20,21 +20,21 @@ async function setDefaultProject(id) {
 }
 
 async function enableSheetsApi() {
-    await execPromise('gcloud services enable sheets.googleapis.com');
+    await exec('gcloud services enable sheets.googleapis.com');
 }
 
 async function createServiceAccount() {
-    await execPromise('gcloud iam service-accounts create clifin-app');
+    await exec('gcloud iam service-accounts create clifin-app');
 }
 
 async function assignAccountRole(id) {
-    await execPromise(`gcloud projects add-iam-policy-binding clifin-${id}
-            --member="serviceAccount:clifin-app@clifin-${ID}.iam.gserviceaccount.com
+    await exec(`gcloud projects add-iam-policy-binding clifin-${id}
+            --member="serviceAccount:clifin-app@clifin-${id}.iam.gserviceaccount.com
             --role="roles/editor`);
 }
 
 async function getAccountKey(id) {
-    await execPromise(`gcloud iam service-accounts keys create ./credentials.json
+    await exec(`gcloud iam service-accounts keys create ./credentials.json
             --iam-account=clifin-app@clifin-${id}.iam.gserviceaccount.com`);
 }
 
@@ -59,7 +59,7 @@ function createConfigFile(documentId) {
         '..', 
         'config.json'
     );
-    fs.writeFile(configFilePath, content, err => {
+    fs.writeFile(configFilePath, JSON.stringify(content), err => {
         if (err) throw err;
     })
 }
