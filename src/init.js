@@ -1,14 +1,20 @@
 import { exec } from 'child_process';
+import { writeFile } from 'fs';
 import { GoogleSpreadsheet } from 'google-spreadsheet';
-import fs from 'node:fs';
-import path from 'node:path';
+import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 export async function init(jwt, docName) {
-    await authenticateGoogle();
-    const doc = createDocument(jwt, docName);
-    createConfigFile(doc);
-    createTransactionsFile();
+    try {
+        await authenticateGoogle();
+        const doc = createDocument(jwt, docName);
+        createConfigFile(doc);
+        createTransactionsFile();
+        return "Your budget was initialized!"
+    } catch (error) {
+        console.log(error);
+        return "There was an error initializing your budget :("
+    }
 }
 
 async function createProject(id) {
@@ -54,23 +60,23 @@ async function createDocument(jwt, docName) {
 
 function createConfigFile(documentId) {
     const content = { documentId: documentId }
-    const configFilePath = path.join(
-        path.dirname(fileURLToPath(import.meta.url)),
+    const configFilePath = join(
+        dirname(fileURLToPath(import.meta.url)),
         '..', 
         'config.json'
     );
-    fs.writeFile(configFilePath, JSON.stringify(content), err => {
+    writeFile(configFilePath, JSON.stringify(content), err => {
         if (err) throw err;
     })
 }
 
 function createTransactionsFile() {
-    const transactionFilePath = path.join(
-        path.dirname(fileURLToPath(import.meta.url)),
+    const transactionFilePath = join(
+        dirname(fileURLToPath(import.meta.url)),
         '..',
         'transactions.json'
     )
-    fs.writeFile(transactionFilePath, '', err => {
+    writeFile(transactionFilePath, '', err => {
         if (err) throw err;
     })
 }
