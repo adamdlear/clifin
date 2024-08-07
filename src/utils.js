@@ -21,27 +21,3 @@ export function getGoogleCreds() {
         return jwt;
     });    
 }
-
-async function init(spreadsheetName) {
-    // Create spreadsheet
-    // Save spreadsheetId in config.json
-    // Log the link to the spreadsheet
-}
-
-function createFile() {
-    fs.open('transactions.json', 'w', (err) => {
-        if (err) throw err;
-    });
-}
-
-function createConfig() {
-    // read command (clifin config)
-    // accept configs from user
-    // write file to dir
-}
-
-function createSheet() {
-    // read credentials
-    // create file in sheets
-    // create sheet
-}
