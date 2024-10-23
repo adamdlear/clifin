@@ -1,28 +1,73 @@
 {
-    "name": "clifin",
-    "version": "1.0.0",
-    "description": "A CLI budget app",
-    "main": "index.js",
-    "scripts": {
-        "test": "jest",
-        "prettier": "bun prettier . --write"
-    },
-    "bin": {
-        "clifin": "./index.js"
-    },
-    "type": "module",
-    "author": "Adam Lear",
-    "license": "MIT",
-    "dependencies": {
-        "commander": "^12.1.0",
-        "google-spreadsheet": "^4.1.2",
-        "googleapis": "^140.0.1"
-    },
-    "devDependencies": {
-        "@types/bun": "latest",
-        "prettier": "3.3.3"
-    },
-    "peerDependencies": {
-        "typescript": "^5.0.0"
+  "name": "clifin",
+  "description": "A new CLI generated with oclif",
+  "version": "0.0.0",
+  "author": "Adam Lear",
+  "bin": {
+    "clifin": "./bin/run.js"
+  },
+  "bugs": "https://github.com/adamdlear/clifin/issues",
+  "dependencies": {
+    "@oclif/core": "^4",
+    "@oclif/plugin-help": "^6",
+    "@oclif/plugin-plugins": "^5"
+  },
+  "devDependencies": {
+    "@oclif/prettier-config": "^0.2.1",
+    "@oclif/test": "^4",
+    "@types/chai": "^4",
+    "@types/mocha": "^10",
+    "@types/node": "^18",
+    "chai": "^4",
+    "eslint": "^8",
+    "eslint-config-oclif": "^5",
+    "eslint-config-oclif-typescript": "^3",
+    "eslint-config-prettier": "^9",
+    "mocha": "^10",
+    "oclif": "^4",
+    "shx": "^0.3.3",
+    "ts-node": "^10",
+    "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "/bin",
+    "/dist",
+    "/oclif.manifest.json"
+  ],
+  "homepage": "https://github.com/adamdlear/clifin",
+  "keywords": [
+    "oclif"
+  ],
+  "license": "MIT",
+  "main": "dist/index.js",
+  "type": "module",
+  "oclif": {
+    "bin": "clifin",
+    "dirname": "clifin",
+    "commands": "./dist/commands",
+    "plugins": [
+      "@oclif/plugin-help",
+      "@oclif/plugin-plugins"
+    ],
+    "topicSeparator": " ",
+    "topics": {
+      "hello": {
+        "description": "Say hello to the world and others"
+      }
     }
+  },
+  "repository": "adamdlear/clifin",
+  "scripts": {
+    "build": "shx rm -rf dist && tsc -b",
+    "lint": "eslint . --ext .ts",
+    "postpack": "shx rm -f oclif.manifest.json",
+    "posttest": "yarn lint",
+    "prepack": "oclif manifest && oclif readme",
+    "test": "mocha --forbid-only \"test/**/*.test.ts\"",
+    "version": "oclif readme && git add README.md"
+  },
+  "types": "dist/index.d.ts"
 }
